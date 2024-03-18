@@ -14,6 +14,8 @@ func GetDB() *gorm.DB {
 func Migrate() error {
 	return db.Migrator().AutoMigrate(
 		&User{},
+		&Stone{},
+		&StoneTypes{},
 	)
 }
 

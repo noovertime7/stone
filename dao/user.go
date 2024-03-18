@@ -2,6 +2,7 @@ package dao
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/noovertime7/stone/dao/common"
 	"github.com/noovertime7/stone/dto"
 	"gorm.io/gorm"
 )
@@ -13,12 +14,12 @@ type ListPageOutput struct {
 
 type User struct {
 	Id       int    `json:"id" gorm:"column:id"`
-	Password string `json:"password"`
-	Avatar   string `json:"avatar"`
 	Account  string `json:"account"`
+	Password string `json:"password"`
 	Nickname string `json:"nickname,omitempty"`
+	Avatar   string `json:"avatar"`
 	Mobile   string `json:"mobile"`
-	Token    string `json:"token"`
+	common.CommonModel
 }
 
 func (f *User) TableName() string {
