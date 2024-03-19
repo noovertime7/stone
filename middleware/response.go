@@ -64,3 +64,7 @@ func ResponseSuccess(c *gin.Context, data interface{}) {
 	response, _ := json.Marshal(resp)
 	c.Set("response", string(response))
 }
+
+func ResponseSuccessNoData(c *gin.Context) {
+	ResponseSuccess(c, "操作成功")
+}

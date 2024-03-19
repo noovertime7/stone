@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
-	"github.com/noovertime7/stone/public"
+	"github.com/noovertime7/stone/pkg"
 	"runtime/debug"
 )
 
@@ -16,7 +16,7 @@ func RecoveryMiddleware() gin.HandlerFunc {
 			if err := recover(); err != nil {
 				//先做一下日志记录
 				fmt.Println(string(debug.Stack()))
-				public.ComLogNotice(c, "_com_panic", map[string]interface{}{
+				pkg.ComLogNotice(c, "_com_panic", map[string]interface{}{
 					"error": fmt.Sprint(err),
 					"stack": string(debug.Stack()),
 				})

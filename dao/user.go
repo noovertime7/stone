@@ -3,8 +3,6 @@ package dao
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/noovertime7/stone/dao/common"
-	"github.com/noovertime7/stone/dto"
-	"gorm.io/gorm"
 )
 
 type ListPageOutput struct {
@@ -50,25 +48,6 @@ func (f *User) FindByUserName(c *gin.Context, name string) (*User, error) {
 		return nil, err
 	}
 	return user, nil
-}
-
-func (f *User) PageList(c *gin.Context, params *dto.ListPageInput) ([]User, int64, error) {
-	var list []User
-	var count int64
-	offset := (params.Page - 1) * params.PageSize
-	query := GetDB().WithContext(c)
-	if params.Name != "" {
-		query = query.Where("name = ?", params.Name)
-	}
-	err := query.Limit(params.PageSize).Offset(offset).Find(&list).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, 0, err
-	}
-	errCount := query.Table("user").Count(&count).Error
-	if errCount != nil {
-		return nil, 0, err
-	}
-	return list, count, nil
 }
 
 func (f *User) Save(c *gin.Context) error {

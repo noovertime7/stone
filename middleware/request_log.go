@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
-	"github.com/noovertime7/stone/public"
+	"github.com/noovertime7/stone/pkg"
 	"io/ioutil"
 	"time"
 )
@@ -42,7 +42,7 @@ func RequestOutLog(c *gin.Context) {
 	st, _ := c.Get("startExecTime")
 
 	startExecTime, _ := st.(time.Time)
-	public.ComLogNotice(c, "_com_request_out", map[string]interface{}{
+	pkg.ComLogNotice(c, "_com_request_out", map[string]interface{}{
 		"uri":       c.Request.RequestURI,
 		"method":    c.Request.Method,
 		"args":      c.Request.PostForm,

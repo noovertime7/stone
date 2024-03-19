@@ -1,4 +1,4 @@
-package public
+package pkg
 
 const (
 	ValidatorKey  = "ValidatorKey"

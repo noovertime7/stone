@@ -39,6 +39,12 @@ func WithInstanceOption(instanceID string, action SqlAction) Option {
 	}
 }
 
+func WithIDOption(id int, action SqlAction) Option {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where(fmt.Sprintf("id %s '%d'", action, id))
+	}
+}
+
 func WithTenantOption(tenantID string, action SqlAction) Option {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where(fmt.Sprintf("tenant_id %s '%s'", action, tenantID))

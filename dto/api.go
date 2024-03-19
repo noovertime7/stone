@@ -2,7 +2,7 @@ package dto
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/noovertime7/stone/public"
+	"github.com/noovertime7/stone/pkg"
 )
 
 type LoginInput struct {
@@ -11,7 +11,7 @@ type LoginInput struct {
 }
 
 func (params *LoginInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	return pkg.DefaultGetValidParams(c, params)
 }
 
 type ListPageInput struct {
@@ -21,7 +21,7 @@ type ListPageInput struct {
 }
 
 func (params *ListPageInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	return pkg.DefaultGetValidParams(c, params)
 }
 
 type AddUserInput struct {
@@ -33,7 +33,7 @@ type AddUserInput struct {
 }
 
 func (params *AddUserInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	return pkg.DefaultGetValidParams(c, params)
 }
 
 type EditUserInput struct {
@@ -46,7 +46,7 @@ type EditUserInput struct {
 }
 
 func (params *EditUserInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	return pkg.DefaultGetValidParams(c, params)
 }
 
 type RemoveUserInput struct {
@@ -54,5 +54,5 @@ type RemoveUserInput struct {
 }
 
 func (params *RemoveUserInput) BindingValidParams(c *gin.Context) error {
-	return public.DefaultGetValidParams(c, params)
+	return pkg.DefaultGetValidParams(c, params)
 }

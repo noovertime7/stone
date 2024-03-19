@@ -5,7 +5,7 @@ import (
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
-	"github.com/noovertime7/stone/public"
+	"github.com/noovertime7/stone/pkg"
 	"gopkg.in/go-playground/validator.v9"
 	en_translations "gopkg.in/go-playground/validator.v9/translations/en"
 	zh_translations "gopkg.in/go-playground/validator.v9/translations/zh"
@@ -59,8 +59,8 @@ func TranslationMiddleware() gin.HandlerFunc {
 			})
 			break
 		}
-		c.Set(public.TranslatorKey, trans)
-		c.Set(public.ValidatorKey, val)
+		c.Set(pkg.TranslatorKey, trans)
+		c.Set(pkg.ValidatorKey, val)
 		c.Next()
 	}
 }
