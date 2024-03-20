@@ -6,12 +6,16 @@ import (
 	"github.com/noovertime7/stone/middleware"
 	"github.com/noovertime7/stone/services"
 	"net/http"
+	"strconv"
 )
 
 func StoneApiRegister(router *gin.RouterGroup) {
 	c := stoneAPI{}
 	router.POST("/stone", c.Create)
 	router.GET("/stone/page", c.Page)
+	router.GET("/stone/:id", middleware.ParamGet(middleware.IDParam), c.Get)
+	router.GET("/stones/:id/same", middleware.ParamGet(middleware.IDParam), c.FindSameTypeStones)
+	router.GET("/hotStones", c.FindHotList)
 }
 
 type stoneAPI struct {
@@ -39,6 +43,38 @@ func (s *stoneAPI) Page(ctx *gin.Context) {
 		return
 	}
 	data, err := s.service.Page(ctx, params)
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccess(ctx, data)
+}
+
+func (s *stoneAPI) FindHotList(ctx *gin.Context) {
+	data, err := s.service.FindHotList(ctx.Request.Context())
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccess(ctx, data)
+}
+
+func (s *stoneAPI) FindSameTypeStones(ctx *gin.Context) {
+	stoneTypeId := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+	intID, _ := strconv.Atoi(stoneTypeId)
+	data, err := s.service.FindSameTypeStones(ctx, intID)
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccess(ctx, data)
+}
+
+func (s *stoneAPI) Get(ctx *gin.Context) {
+	id := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+
+	intID, _ := strconv.Atoi(id)
+	data, err := s.service.Get(ctx, intID)
 	if err != nil {
 		middleware.ResponseError(ctx, http.StatusBadRequest, err)
 		return

@@ -22,6 +22,7 @@ type Stone struct {
 	DetailImages gormdatatypes.JSONSlice `json:"detailImages"`
 	Description  string                  `json:"description"`
 	Hot          HotType                 `json:"hot"`
+	BuyNum       int                     `json:"buyNum"`
 	common.CommonModel
 }
 
