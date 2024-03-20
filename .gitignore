@@ -1,4 +1,4 @@
 *.log
 .idea
 gin_scaffold
-.conf/dev/base.toml
+./conf/dev/base.toml

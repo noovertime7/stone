@@ -16,10 +16,9 @@ const (
 
 type Stone struct {
 	Id           int                     `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null"`
-	StoneTypeId  string                  `json:"stoneTypeId"`
+	StoneTypeId  int                     `json:"stoneTypeId"`
 	Name         string                  `json:"name"`
-	HomeImage    string                  `json:"homeImage"`
-	Price        int64                   `json:"price" gorm:"comment:价格"`
+	CoverImages  gormdatatypes.JSONSlice `json:"coverImages"`
 	DetailImages gormdatatypes.JSONSlice `json:"detailImages"`
 	Description  string                  `json:"description"`
 	Hot          HotType                 `json:"hot"`
