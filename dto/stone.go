@@ -42,8 +42,8 @@ func (p *PageStoneInput) IsFitter() bool {
 }
 
 func (p *PageStoneInput) Do(tx *gorm.DB) {
-	return
-	//tx.Where("name like ? or content like ?", "%"+p.Keyword+"%", "%"+p.Keyword+"%")
+	//return
+	tx.Where("name like ?", "%"+p.Keyword+"%")
 }
 
 type PageStoneOut struct {

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/noovertime7/stone/controller"
 	"github.com/noovertime7/stone/docs"
+	"github.com/noovertime7/stone/middleware"
 )
 
 // @title Swagger Example API
@@ -91,6 +92,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 	//登陆接口
 	v1 := apiGroup.Group("/v1")
+	v1.Use(middleware.Cores())
 
 	//sessions.Sessions("mysession", store),
 	//middleware.RecoveryMiddleware()
