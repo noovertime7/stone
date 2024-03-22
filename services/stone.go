@@ -43,6 +43,12 @@ func (s *StoneService) FindHotList(ctx context.Context) ([]*dao.Stone, error) {
 	return model.FindList(ctx, dao.Stone{Hot: dao.Hot})
 }
 
+func (s *StoneService) FindStonesByTypeID(ctx context.Context, tid int) ([]*dao.Stone, error) {
+	model := dao.Stone{}
+
+	return model.FindList(ctx, dao.Stone{StoneTypeId: tid})
+}
+
 func (s *StoneService) FindSameTypeStones(ctx context.Context, id int) ([]*dao.Stone, error) {
 	model := dao.Stone{Id: id}
 	stone, ok, err := model.Find(ctx, model)

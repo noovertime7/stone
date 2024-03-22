@@ -15,6 +15,7 @@ func StoneApiRegister(router *gin.RouterGroup) {
 	router.GET("/stone/page", c.Page)
 	router.GET("/stone/:id", middleware.ParamGet(middleware.IDParam), c.Get)
 	router.GET("/stones/:id/same", middleware.ParamGet(middleware.IDParam), c.FindSameTypeStones)
+	router.GET("/stones/:id/bytype", middleware.ParamGet(middleware.IDParam), c.FindStonesByType)
 	router.GET("/hotStones", c.FindHotList)
 }
 
@@ -63,6 +64,17 @@ func (s *stoneAPI) FindSameTypeStones(ctx *gin.Context) {
 	stoneTypeId := middleware.GetStringFromCtx(ctx, middleware.IDParam)
 	intID, _ := strconv.Atoi(stoneTypeId)
 	data, err := s.service.FindSameTypeStones(ctx, intID)
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccess(ctx, data)
+}
+
+func (s *stoneAPI) FindStonesByType(ctx *gin.Context) {
+	stoneTypeId := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+	intID, _ := strconv.Atoi(stoneTypeId)
+	data, err := s.service.FindStonesByTypeID(ctx, intID)
 	if err != nil {
 		middleware.ResponseError(ctx, http.StatusBadRequest, err)
 		return
