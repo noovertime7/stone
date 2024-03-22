@@ -12,6 +12,7 @@ import (
 func StoneApiRegister(router *gin.RouterGroup) {
 	c := stoneAPI{}
 	router.POST("/stone", c.Create)
+	router.POST("/stone/:id/update", middleware.ParamGet(middleware.IDParam), c.Update)
 	router.GET("/stone/page", c.Page)
 	router.GET("/stone/:id", middleware.ParamGet(middleware.IDParam), c.Get)
 	router.GET("/stones/:id/same", middleware.ParamGet(middleware.IDParam), c.FindSameTypeStones)
@@ -30,6 +31,22 @@ func (s *stoneAPI) Create(ctx *gin.Context) {
 		return
 	}
 	err := s.service.Save(ctx, params)
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccessNoData(ctx)
+}
+
+func (s *stoneAPI) Update(ctx *gin.Context) {
+	stoneTypeId := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+	intID, _ := strconv.Atoi(stoneTypeId)
+	params := &dto.CreateStone{}
+	if err := params.BindingValidParams(ctx); err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	err := s.service.Update(ctx, intID, params)
 	if err != nil {
 		middleware.ResponseError(ctx, http.StatusBadRequest, err)
 		return

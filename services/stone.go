@@ -77,9 +77,16 @@ func (s *StoneService) Page(ctx context.Context, params runtime.DataBasePager) (
 	}, err
 }
 
-func (s *StoneService) Update(ctx context.Context, id int, name string) error {
-	model := dao.Stone{}
-	return model.Updates(ctx, common.WithIDOption(id, common.Equal), &dao.Stone{Name: name})
+func (s *StoneService) Update(ctx context.Context, id int, stone *dto.CreateStone) error {
+	model := &dao.Stone{
+		StoneTypeId:  stone.StoneTypeId,
+		Name:         stone.Name,
+		CoverImages:  stone.CoverImages,
+		DetailImages: stone.DetailImages,
+		Description:  stone.Description,
+		Hot:          stone.Hot,
+	}
+	return model.Updates(ctx, common.WithIDOption(id, common.Equal), model)
 }
 
 func (s *StoneService) Save(ctx context.Context, stone *dto.CreateStone) error {
@@ -92,7 +99,7 @@ func (s *StoneService) Save(ctx context.Context, stone *dto.CreateStone) error {
 		CoverImages:  stone.CoverImages,
 		DetailImages: stone.DetailImages,
 		Description:  stone.Description,
-		Hot:          dao.NotHot,
+		Hot:          stone.Hot,
 		StoneTypeId:  stone.StoneTypeId,
 		BuyNum:       randomNumber,
 	}

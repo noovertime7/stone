@@ -8,11 +8,12 @@ import (
 )
 
 type CreateStone struct {
-	StoneTypeId  int      `json:"stoneTypeId"`
-	Name         string   `json:"name"`
-	CoverImages  []string `json:"coverImages"`
-	DetailImages []string `json:"detailImages"`
-	Description  string   `json:"description"`
+	StoneTypeId  int         `json:"stoneTypeId"`
+	Name         string      `json:"name"`
+	CoverImages  []string    `json:"coverImages"`
+	DetailImages []string    `json:"detailImages"`
+	Description  string      `json:"description"`
+	Hot          dao.HotType `json:"hot"`
 }
 
 func (p *CreateStone) BindingValidParams(ctx *gin.Context) error {
