@@ -9,12 +9,12 @@ import (
 type StoneTypes struct {
 	Id     int     `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null"`
 	Name   string  `json:"name"`
-	Stones []Stone `json:"stones" gorm:"-"`
+	Stones []Stone `json:"stones" gorm:"foreignKey:StoneTypeId;association_foreignkey:StoneTypeId;references:Id""`
 	common.CommonModel
 }
 
 func (f *StoneTypes) TableName() string {
-	return "t_StoneTypes_types"
+	return "t_stone_types"
 }
 
 func (s *StoneTypes) PageList(ctx context.Context, params runtime.DataBasePager, ops ...common.Option) ([]*StoneTypes, int64, error) {
@@ -66,6 +66,16 @@ func (s *StoneTypes) FindList(ctx context.Context, search StoneTypes, opts ...co
 
 	var out []*StoneTypes
 	return out, query.Where(&search).Find(&out).Error
+}
+
+func (s *StoneTypes) FindListWithStone(ctx context.Context, search StoneTypes, opts ...common.Option) ([]*StoneTypes, error) {
+	query := GetDB().WithContext(ctx)
+	for _, opt := range opts {
+		query = opt(query)
+	}
+
+	var out []*StoneTypes
+	return out, query.Where(&search).Model(&search).Preload("Stones").Find(&out).Error
 }
 
 func (s *StoneTypes) Delete(ctx context.Context, search StoneTypes, isDelete bool) error {

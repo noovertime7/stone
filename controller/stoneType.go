@@ -49,7 +49,8 @@ func (s *StoneTypeController) Save(ctx *gin.Context) {
 }
 
 func (s *StoneTypeController) List(ctx *gin.Context) {
-	data, err := s.service.List(ctx.Request.Context())
+	ok := ctx.Query("withStone")
+	data, err := s.service.List(ctx.Request.Context(), ok == "true")
 	if err != nil {
 		middleware.ResponseError(ctx, middleware.InternalErrorCode, err)
 		return

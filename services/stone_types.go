@@ -21,8 +21,11 @@ func (s *StoneTypeService) Get(ctx context.Context, id int) (dao.StoneTypes, err
 	return data, err
 }
 
-func (s *StoneTypeService) List(ctx context.Context) ([]*dao.StoneTypes, error) {
+func (s *StoneTypeService) List(ctx context.Context, withStone bool) ([]*dao.StoneTypes, error) {
 	model := dao.StoneTypes{}
+	if withStone {
+		return model.FindListWithStone(ctx, dao.StoneTypes{})
+	}
 	return model.FindList(ctx, dao.StoneTypes{})
 }
 

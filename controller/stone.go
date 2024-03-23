@@ -15,6 +15,7 @@ func StoneApiRegister(router *gin.RouterGroup) {
 	router.POST("/stone/:id/update", middleware.ParamGet(middleware.IDParam), c.Update)
 	router.GET("/stone/page", c.Page)
 	router.GET("/stone/:id", middleware.ParamGet(middleware.IDParam), c.Get)
+	router.DELETE("/stone/:id", middleware.ParamGet(middleware.IDParam), c.Delete)
 	router.GET("/stones/:id/same", middleware.ParamGet(middleware.IDParam), c.FindSameTypeStones)
 	router.GET("/stones/:id/bytype", middleware.ParamGet(middleware.IDParam), c.FindStonesByType)
 	router.GET("/hotStones", c.FindHotList)
@@ -109,4 +110,16 @@ func (s *stoneAPI) Get(ctx *gin.Context) {
 		return
 	}
 	middleware.ResponseSuccess(ctx, data)
+}
+
+func (s *stoneAPI) Delete(ctx *gin.Context) {
+	id := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+
+	intID, _ := strconv.Atoi(id)
+	err := s.service.Delete(ctx, intID)
+	if err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	middleware.ResponseSuccessNoData(ctx)
 }
