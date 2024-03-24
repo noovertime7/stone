@@ -8,11 +8,16 @@ import (
 )
 
 type Record struct {
-	Id          int                     `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null"`
-	StoneId     int                     `json:"stoneId"`
-	Images      gormdatatypes.JSONSlice `json:"images"`
-	Location    string                  `json:"location"`
-	Description string                  `json:"description"`
+	Id               int                     `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null"`
+	StoneName        string                  `json:"stoneName"`
+	StoneId          int                     `json:"stoneId"`
+	Video            string                  `json:"video"`
+	Images           gormdatatypes.JSONSlice `json:"images"`
+	Location         string                  `json:"location"`
+	Description      string                  `json:"description"`
+	Longitude        float64                 `json:"longitude"`
+	Latitude         float64                 `json:"latitude"`
+	DetailedLocation string                  `json:"detailedlocation"`
 	common.CommonModel
 }
 
