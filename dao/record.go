@@ -15,6 +15,7 @@ type Record struct {
 	Images           gormdatatypes.JSONSlice `json:"images"`
 	Location         string                  `json:"location"`
 	Description      string                  `json:"description"`
+	Date             string                  `json:"date"`
 	Longitude        float64                 `json:"longitude"`
 	Latitude         float64                 `json:"latitude"`
 	DetailedLocation string                  `json:"detailedlocation"`

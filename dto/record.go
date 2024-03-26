@@ -16,6 +16,7 @@ type CreateRecordInput struct {
 	Longitude        float64  `json:"longitude"`
 	Latitude         float64  `json:"latitude"`
 	DetailedLocation string   `json:"detailedlocation"`
+	Date             string   `json:"date"`
 }
 
 func (p *CreateRecordInput) BindingValidParams(ctx *gin.Context) error {
@@ -46,7 +47,7 @@ func (p *PageRecordInput) IsFitter() bool {
 
 func (p *PageRecordInput) Do(tx *gorm.DB) {
 	//return
-	tx.Where("name like ?", "%"+p.Keyword+"%")
+	tx.Where("stone_name like ? or location like ? or detailed_location like ?", "%"+p.Keyword+"%", "%"+p.Keyword+"%", "%"+p.Keyword+"%")
 }
 
 type PagerRecordOut struct {

@@ -68,6 +68,7 @@ func (s *RecordService) Save(ctx context.Context, in *dto.CreateRecordInput) err
 		Longitude:        in.Longitude,
 		Latitude:         in.Latitude,
 		DetailedLocation: in.DetailedLocation,
+		Date:             in.Date,
 	}
 	return model.Save(ctx, &model)
 }
