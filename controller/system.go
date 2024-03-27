@@ -17,6 +17,10 @@ type systemApiController struct {
 }
 
 func (s *systemApiController) Upload(ctx *gin.Context) {
+	fileType := ctx.Query("type")
+	if fileType == "" {
+		fileType = "image"
+	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
 		middleware.ResponseError(ctx, http.StatusInternalServerError, err)
@@ -31,8 +35,11 @@ func (s *systemApiController) Upload(ctx *gin.Context) {
 			middleware.ResponseError(ctx, http.StatusInternalServerError, err)
 			return
 		}
-
-		links = append(links, utils.BuildFileLink(file))
+		if fileType == "image" {
+			links = append(links, utils.BuildImageFileLink(file))
+		} else {
+			links = append(links, utils.BuildFileLink(file))
+		}
 	}
 
 	middleware.ResponseSuccess(ctx, links)

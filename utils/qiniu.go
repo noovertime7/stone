@@ -58,6 +58,10 @@ func buildKey(file *multipart.FileHeader) string {
 	return "stone/" + file.Filename
 }
 
+func BuildImageFileLink(file *multipart.FileHeader) string {
+	return fmt.Sprintf("http://qiniu.yunxue521.top/stone/%s%s", file.Filename, BuildWaterMarkUrl())
+}
+
 func BuildFileLink(file *multipart.FileHeader) string {
 	return fmt.Sprintf("http://qiniu.yunxue521.top/stone/%s", file.Filename)
 }
