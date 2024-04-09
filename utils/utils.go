@@ -10,7 +10,7 @@ func IsStrEmpty(str string) bool {
 }
 
 func BuildWaterMarkUrl() string {
-	dissolve := 90 // 透明度
-	resize := 5    // 缩放
-	return fmt.Sprintf("?watermark/4/text/%s/fontsize/400/fill/Z3JheQ==/dissolve/%d/rotate/30/uw/180/uh/180/resize/%d&=", pkg.URLEncodeBase64(pkg.Watermark), dissolve, resize)
+	fontsize := 1000
+	fill := "I0ZGRkZGRg"
+	return fmt.Sprintf("?watermark/2/text/%s/fontsize/%d/fill/%s", pkg.URLEncodeBase64(pkg.Watermark), fontsize, fill)
 }
