@@ -14,6 +14,9 @@ type CreateStone struct {
 	DetailImages []string    `json:"detailImages"`
 	Description  string      `json:"description"`
 	Hot          dao.HotType `json:"hot"`
+	Color        string      `json:"color"`
+	Origin       string      `json:"origin"`
+	Texture      string      `json:"texture"`
 }
 
 func (p *CreateStone) BindingValidParams(ctx *gin.Context) error {

@@ -5,6 +5,7 @@ import (
 	"github.com/noovertime7/stone/dto"
 	"github.com/noovertime7/stone/middleware"
 	"github.com/noovertime7/stone/services"
+	"net/http"
 	"strconv"
 )
 
@@ -13,6 +14,7 @@ func RecordeRegister(router *gin.RouterGroup) {
 		service: &services.RecordService{},
 	}
 	router.POST("/record", curd.Save)
+	router.POST("/record/:id/update", middleware.ParamGet(middleware.IDParam), curd.Update)
 	router.GET("/record/:id", middleware.ParamGet(middleware.IDParam), curd.Get)
 	router.GET("/record/page", curd.Page)
 	router.GET("/record", curd.List)
@@ -41,6 +43,22 @@ func (s *recordeRegister) Save(ctx *gin.Context) {
 		return
 	}
 	err := s.service.Save(ctx, params)
+	if err != nil {
+		middleware.ResponseError(ctx, middleware.InternalErrorCode, err)
+		return
+	}
+	middleware.ResponseSuccessNoData(ctx)
+}
+
+func (s *recordeRegister) Update(ctx *gin.Context) {
+	id := middleware.GetStringFromCtx(ctx, middleware.IDParam)
+	intId, _ := strconv.Atoi(id)
+	params := &dto.UpdateRecordInput{}
+	if err := params.BindingValidParams(ctx); err != nil {
+		middleware.ResponseError(ctx, http.StatusBadRequest, err)
+		return
+	}
+	err := s.service.Update(ctx.Request.Context(), intId, params)
 	if err != nil {
 		middleware.ResponseError(ctx, middleware.InternalErrorCode, err)
 		return

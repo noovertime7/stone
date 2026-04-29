@@ -17,6 +17,7 @@ func Migrate() error {
 		&StoneTypes{},
 		&Stone{},
 		&Record{},
+		&Banner{},
 	)
 }
 

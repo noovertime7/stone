@@ -104,6 +104,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		controller.ApiRegister(v1)
 		controller.StoneApiRegister(v1)
 		controller.RecordeRegister(v1)
+		controller.BannerRegister(v1)
 	}
 	{
 		controller.StoneTypeRegister(v1)

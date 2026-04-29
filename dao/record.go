@@ -19,6 +19,7 @@ type Record struct {
 	Longitude        float64                 `json:"longitude"`
 	Latitude         float64                 `json:"latitude"`
 	DetailedLocation string                  `json:"detailedlocation"`
+	ViewCount        int                     `json:"viewCount" gorm:"default:0"`
 	common.CommonModel
 }
 

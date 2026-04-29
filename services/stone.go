@@ -3,13 +3,10 @@ package services
 import (
 	"context"
 	"fmt"
-	"github.com/e421083458/golang_common/log"
 	"github.com/noovertime7/stone/dao"
 	"github.com/noovertime7/stone/dao/common"
 	"github.com/noovertime7/stone/dto"
 	"github.com/noovertime7/stone/runtime"
-	"math/rand"
-	"time"
 )
 
 type StoneService struct {
@@ -21,15 +18,8 @@ func (s *StoneService) Get(ctx context.Context, id int) (dao.Stone, error) {
 	if !ok {
 		return dao.Stone{}, fmt.Errorf("大理石不存在")
 	}
-	// 使用时间作为种子，确保每次运行生成的随机数都不同
-	rand.Seed(time.Now().UnixNano())
-	// 生成200到400之间的随机数
-	randomNumber := rand.Intn(301) + 100
-	if randomNumber > 300 {
-		data.BuyNum = data.BuyNum + 1
-		_ = model.Updates(ctx, common.WithIDOption(data.Id, common.Equal), &dao.Stone{BuyNum: data.BuyNum})
-		log.Info(" 用户购买了大理石，购买次数加一")
-	}
+	data.ViewCount = data.ViewCount + 1
+	_ = model.Updates(ctx, common.WithIDOption(data.Id, common.Equal), &dao.Stone{ViewCount: data.ViewCount})
 	return data, err
 }
 
@@ -85,15 +75,14 @@ func (s *StoneService) Update(ctx context.Context, id int, stone *dto.CreateSton
 		DetailImages: stone.DetailImages,
 		Description:  stone.Description,
 		Hot:          stone.Hot,
+		Color:        stone.Color,
+		Origin:       stone.Origin,
+		Texture:      stone.Texture,
 	}
 	return model.Updates(ctx, common.WithIDOption(id, common.Equal), model)
 }
 
 func (s *StoneService) Save(ctx context.Context, stone *dto.CreateStone) error {
-	// 使用时间作为种子，确保每次运行生成的随机数都不同
-	rand.Seed(time.Now().UnixNano())
-	// 生成200到500之间的随机数
-	randomNumber := rand.Intn(301) + 200
 	model := dao.Stone{
 		Name:         stone.Name,
 		CoverImages:  stone.CoverImages,
@@ -101,7 +90,9 @@ func (s *StoneService) Save(ctx context.Context, stone *dto.CreateStone) error {
 		Description:  stone.Description,
 		Hot:          stone.Hot,
 		StoneTypeId:  stone.StoneTypeId,
-		BuyNum:       randomNumber,
+		Color:        stone.Color,
+		Origin:       stone.Origin,
+		Texture:      stone.Texture,
 	}
 	return model.Save(ctx, &model)
 }

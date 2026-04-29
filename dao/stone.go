@@ -23,6 +23,10 @@ type Stone struct {
 	Description  string                  `json:"description"`
 	Hot          HotType                 `json:"hot"`
 	BuyNum       int                     `json:"buyNum"`
+	ViewCount    int                     `json:"viewCount" gorm:"default:0"`
+	Color        string                  `json:"color"`
+	Origin       string                  `json:"origin"`
+	Texture      string                  `json:"texture"`
 	Records      []Record                `json:"records" gorm:"foreignKey:StoneId;association_foreignkey:StoneId;references:Id""`
 	common.CommonModel
 }

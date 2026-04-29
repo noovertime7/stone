@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/noovertime7/stone/dao"
+	"github.com/noovertime7/stone/dao/common"
 	"github.com/noovertime7/stone/dto"
 	"github.com/noovertime7/stone/runtime"
 	"github.com/noovertime7/stone/utils"
@@ -16,8 +17,10 @@ func (s *RecordService) Get(ctx context.Context, id int) (dao.Record, error) {
 	model := &dao.Record{}
 	data, ok, err := model.Find(ctx, dao.Record{Id: id})
 	if !ok {
-		return dao.Record{}, fmt.Errorf("分类不存在")
+		return dao.Record{}, fmt.Errorf("记录不存在")
 	}
+	data.ViewCount = data.ViewCount + 1
+	_ = model.Updates(ctx, common.WithIDOption(data.Id, common.Equal), &dao.Record{ViewCount: data.ViewCount})
 	return data, err
 }
 
@@ -71,4 +74,25 @@ func (s *RecordService) Save(ctx context.Context, in *dto.CreateRecordInput) err
 		Date:             in.Date,
 	}
 	return model.Save(ctx, &model)
+}
+
+func (s *RecordService) Update(ctx context.Context, id int, in *dto.UpdateRecordInput) error {
+	stone := dao.Stone{Id: in.StoneId}
+	st, _, err := stone.Find(ctx, stone)
+	if err != nil {
+		return err
+	}
+	model := &dao.Record{
+		StoneId:          in.StoneId,
+		StoneName:        st.Name,
+		Video:            in.Video,
+		Images:           in.Images,
+		Location:         in.Location,
+		Description:      in.Description,
+		Longitude:        in.Longitude,
+		Latitude:         in.Latitude,
+		DetailedLocation: in.DetailedLocation,
+		Date:             in.Date,
+	}
+	return model.Updates(ctx, common.WithIDOption(id, common.Equal), model)
 }

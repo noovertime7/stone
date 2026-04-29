@@ -56,3 +56,19 @@ type PagerRecordOut struct {
 	Page     int           `json:"page" form:"page"`         // 页码
 	PageSize int           `json:"pageSize" form:"pageSize"` // 每页大小
 }
+
+type UpdateRecordInput struct {
+	StoneId          int      `json:"stoneId"`
+	Video            string   `json:"video"`
+	Images           []string `json:"images"`
+	Location         string   `json:"location"`
+	Description      string   `json:"description"`
+	Longitude        float64  `json:"longitude"`
+	Latitude         float64  `json:"latitude"`
+	DetailedLocation string   `json:"detailedlocation"`
+	Date             string   `json:"date"`
+}
+
+func (p *UpdateRecordInput) BindingValidParams(ctx *gin.Context) error {
+	return pkg.DefaultGetValidParams(ctx, p)
+}
